@@ -1,5 +1,11 @@
 package com.revature.activity;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.lang.reflect.Parameter;
+
 import com.revature.exercise.SecretClass;
 
 public class ReflectionActivity {
@@ -18,10 +24,71 @@ public class ReflectionActivity {
 	 * 10. What annotation(s) does the class itself have, and what are the values of 
 	 *     the field(s) on them?
 	 */
-	public static void main(String[] args) {
+	public static void main(String[] args) throws IllegalAccessException, IllegalArgumentException, InvocationTargetException, InstantiationException {
 		SecretClass secret = new SecretClass();
+		// secret. reveals all the methods and what they return/intake
+		printClassInfo(secret);
+	}
+	
+	/**
+	 * 1. The fields are an int id, String name, String message, and final passcode.
+	 * 2. The methods are getMessage(), getStaticMessage(), wait(long, int), wait(), wait(long), equals(Object),
+	 * toString(), hashCode(), getClass(), notify(), notifyAll().
+	 * 3. int is private, name is private, message is prive, passcode is private final;
+	 * getMessage() is public, getStaticMessage() is public static, wait() is final, wait() is final, wait() is final native, equals() is public,
+	 * toString() is public, hashCode() is public native, getClass() is public final native, notify() is public final native, and notifyAll() is public final
+	 * native.
+	 * 4. getMessage() returns the runtime, getStaticMessage() returns nothing, wait(long, int) returns the runtime in milliseconds and nanoseconds, wait() does not return anything,
+	 * wait(long) returns the runtime in milliseconds, equals(Object) returns a boolean, toString() returns a string, hashCode() returns a hashcode value, getClass() returns the class
+	 * object, notify() returns nothing, and notifyAll() returns nothing.
+	 * @throws InstantiationException 
+	 * 
+	 */
+	public static void printClassInfo(Object obj) throws IllegalAccessException, IllegalArgumentException, InvocationTargetException, InstantiationException {
+		Class objClass = obj.getClass();
+		//System.out.println(objClass);
+		
+		Constructor[] constructors = objClass.getConstructors();
+		//System.out.println(Arrays.toString(constructors));
+		for(Constructor constructor : constructors) {
+			Parameter[] params = constructor.getParameters();
+			for(Parameter param : params) {
+				System.out.println(param);
+			}
+		}
 		
 		
+		
+		
+		Field[] fields = objClass.getDeclaredFields();
+		// Finding the modifiers for the fields
+		/*
+		 * for(Field field : fields) { System.out.println("Modifiers: " +
+		 * Modifier.toString(field.getModifiers())); }
+		 */
+		
+		// Finds all the fields in Secret class
+		/*
+		 * for(Field field : fields) { System.out.println(field); }
+		 */
+		Method[] methods = objClass.getMethods();
+		// Finds the modifiers for the methods
+		/*
+		 * for(Method method : methods) { System.out.println("Modifiers: " +
+		 * Modifier.toString(method.getModifiers())); }
+		 */
+		 
+		 
+		// Finds all the methods in the Secret Class.
+		/*
+		 * for(int i = 0; i < methods.length; i++) {
+		 * System.out.println("The methods are: " + methods[i].toString()); }
+		 */
+		 
+		
+	
+	
+	
 	}
 
 	/*
